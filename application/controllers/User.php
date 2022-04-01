@@ -3,59 +3,58 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class User extends CI_Controller
 {
+    public $id = '';
+    public $userData;
+    public function index()
+    {
+        $this->userData = isset($_POST) ? $_POST : '';
+        $this->load->model('modelUser');
 
-	public function index()
-	{
+        if (!empty($this->userData['confirmButton'])) {
+            $this->id = $this->userData['confirmButton'];
+            redirect('user/delete_user/' . $this->id);
+        }
 
-		$userData = isset($_POST) ? $_POST : '';
-		$this->load->model('modelUser');
+        if (!empty($this->userData['edit'])) {
+            $this->id = $this->userData['edit'];
+        }
 
+        $data = array(
+            'users' => $this->modelUser->get_all_users(),
+            'id' => $this->id,
+        );
+        $this->load->model('modelUser');
 
-		if (!empty($userData['name'])) {
-			redirect('user/add_user/');
-		}
+        if (!empty($this->userData['name'])) {
+            $this->add_user($this->userData);
 
-		$id = '';
-		if (!empty($userData['confirmButton'])) {
-			$id = $userData['confirmButton'];
-			redirect('user/delete_user/' . $id);
-		}
+        }
+        $this->load->view('users_view', $data);
 
-		if (!empty($userData['edit'])) {
-			$id = $userData['edit'];
-		}
+    }
 
-		$data = array(
-			'users' => $this->modelUser->get_all_users(),
-			'id' => $id,
-		);
+    public function add_user($userData)
+    {
+        $this->load->model('modelUser');
+        $this->modelUser->crate_user($userData);
+        redirect('user');
+    }
 
-		$this->load->view('users_view', $data);
-	}
+    public function delete_user($id)
+    {
+        $this->load->model('modelUser');
+        $this->modelUser->delete_user($id);
+        redirect('user/');
 
-	public function add_user()
-	{
-		print_r($_POST);
-		$this->load->model('modelUser');
-//		$this->modelUser->crate_user($userData);
-//		redirect('user/');
-	}
+        return true;
+    }
 
-	public function delete_user($id)
-	{
-		$this->load->model('modelUser');
-		$this->modelUser->delete_user($id);
-		redirect('user/');
+    public function edit_user($id)
+    {
+        $this->load->view('edit_user');
 
-		return true;
-	}
-
-	public function edit_user($id)
-	{
-		$this->load->view('edit_user');
-
-		$this->modelUser->update_user($id);
-		echo 'cartof' . $id;
-	}
+        $this->modelUser->update_user($id);
+        echo 'cartof' . $id;
+    }
 
 }
