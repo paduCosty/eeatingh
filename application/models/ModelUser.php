@@ -11,7 +11,7 @@ class ModelUser extends CI_Model
 				'name' => isset($data['name']) ? $data['name'] : '',
 				'text' => isset($data['text']) ? $data['text'] : ''
 			);
-			$this->db->insert('user2', $userData);
+			$this->db->insert('dbApp', $userData);
 
 			return true;
 		}
@@ -20,7 +20,7 @@ class ModelUser extends CI_Model
 
 	public function get_all_users()
 	{
-		$query = $this->db->get('user2');
+		$query = $this->db->get('dbApp');
 
 		return $query;
 	}
@@ -28,7 +28,7 @@ class ModelUser extends CI_Model
 	public function delete_user($userId)
 	{
 		$this->db->where('id', $userId);
-		$q = $this->db->get('user2');
+		$q = $this->db->get('dbApp');
 
 		if (empty($q->result_array())) {
 			return false;
@@ -38,7 +38,7 @@ class ModelUser extends CI_Model
 
 		if ($userId == $id) {
 			$this->db->where("id", $id);
-			$this->db->delete("user2");
+			$this->db->delete("dbApp");
 		}
 		return true;
 	}
@@ -46,7 +46,7 @@ class ModelUser extends CI_Model
 	public function update_user($userId)
 	{
 		$this->db->where('id', $userId['edit']);
-		$q = $this->db->get('db_app');
+		$q = $this->db->get('dbApp');
 
 		if (empty($q->result_array())) {
 			return false;

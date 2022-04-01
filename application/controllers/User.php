@@ -6,6 +6,7 @@ class User extends CI_Controller
 
 	public function index()
 	{
+
 		$userData = isset($_POST) ? $_POST : '';
 		$this->load->model('modelUser');
 
