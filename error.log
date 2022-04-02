@@ -6,3 +6,4 @@
 [Fri Apr 01 13:39:07.964670 2022] [authz_core:error] [pid 4723] [client 127.0.0.1:33964] AH01630: client denied by server configuration: /var/www/html/eeatingh/application/user
 [Fri Apr 01 13:42:10.225782 2022] [authz_core:error] [pid 6395] [client 127.0.0.1:33968] AH01630: client denied by server configuration: /var/www/html/eeatingh/application/user
 [Fri Apr 01 13:55:25.669881 2022] [authz_core:error] [pid 8102] [client 127.0.0.1:34008] AH01630: client denied by server configuration: /var/www/html/eeatingh/application/user
+[Fri Apr 01 23:11:34.640896 2022] [core:error] [pid 15506] [client 127.0.0.1:33220] AH00124: Request exceeded the limit of 10 internal redirects due to probable configuration error. Use 'LimitInternalRecursion' to increase the limit if necessary. Use 'LogLevel debug' to get a backtrace., referer: http://localhost.eeatingh/user
