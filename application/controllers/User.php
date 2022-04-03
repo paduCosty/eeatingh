@@ -5,6 +5,7 @@ class User extends CI_Controller
 {
     public $id = '';
     public $userData;
+
     public function index()
     {
         $this->userData = isset($_POST) ? $_POST : '';
@@ -13,10 +14,6 @@ class User extends CI_Controller
         if (!empty($this->userData['confirmButton'])) {
             $this->id = $this->userData['confirmButton'];
             redirect('user/delete_user/' . $this->id);
-        }
-
-        if (!empty($this->userData['edit'])) {
-            $this->id = $this->userData['edit'];
         }
 
         $data = array(
@@ -29,6 +26,11 @@ class User extends CI_Controller
             $this->add_user($this->userData);
 
         }
+        if (!empty($this->userData['edit'])) {
+            $this->id = $this->userData['edit'];
+            redirect('user/edit_user/' . $this->id);
+        }
+
         $this->load->view('users_view', $data);
 
     }
@@ -51,10 +53,27 @@ class User extends CI_Controller
 
     public function edit_user($id)
     {
-        $this->load->view('edit_user');
+        $this->load->model('modelUser');
+        $user = $this->modelUser->get_user_by_id($id);
+        $this->load->view('edit_user', $user);
+        $this->userData = isset($_POST) ? $_POST : '';
+        if (!empty($this->userData['confirmEdit'])) {
+            $row = array(
+                'id' => $this->userData['confirmEdit'],
+                'name' => $this->userData['name'],
+                'text' => $this->userData['text']
+            );
+            $this->modelUser->update_user($row);
 
-        $this->modelUser->update_user($id);
-        echo 'cartof' . $id;
+            if (!empty($this->userData['name'])) {
+                redirect('user/');
+            }
+
+            return true;
+        }
+        if (!empty($this->userData['cancelEdit'])) {
+            redirect('user');
+        }
     }
 
 }

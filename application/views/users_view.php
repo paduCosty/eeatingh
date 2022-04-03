@@ -30,7 +30,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <table class="table table-dark">
 
                         <tr>
-                            <th><?php echo $row->id ?>
+                            <th><?php echo $row->id ?></th>
                             <th name="name"><?php echo $row->name ?></th>
                             <th name="text"><?php echo $row->text ?></th>
                             <th style="background-color: green; text-align: center;" id="delete<?php echo $idRow ?>"
@@ -41,13 +41,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <?php echo $row->id ?>)'> X
                             </th>
                             <th id=<?php echo $idRow ?>></th>
-                            <th name='editUser' type="submint" style="background-color: red">Edit</th>
+                            <th>
+                                <button type="submit" value="<?php echo $row->id ?>" name="edit">Edit</button>
+                            </th>
+
 
                             <!--delete user-->
 
                         </tr>
 
                     </table>
+
                 </form>
                 <?php
                 $idRow++;
@@ -80,5 +84,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         let alertBox = document.getElementById(idRow).innerHTML =
             "<button style='background-color: red' name='confirmButton' value='" + db_id + "'</button>Yes <button style='background-color: green'>No</button>";
     }
+
 </script>
 
