@@ -8,6 +8,7 @@ class User extends CI_Controller
 
     public function index()
     {
+        $this->load->view('template/navbar');
         $this->userData = isset($_POST) ? $_POST : '';
         $this->load->model('modelUser');
 
@@ -53,6 +54,7 @@ class User extends CI_Controller
 
     public function edit_user($id)
     {
+        $this->load->view('template/navbar');
         $this->load->model('modelUser');
         $user = $this->modelUser->get_user_by_id($id);
         $this->load->view('edit_user', $user);
