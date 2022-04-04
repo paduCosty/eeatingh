@@ -11,11 +11,6 @@ class User extends CI_Controller
         $this->userData = isset($_POST) ? $_POST : '';
         $this->load->model('modelUser');
 
-        if (!empty($this->userData['confirmButton'])) {
-            $this->id = $this->userData['confirmButton'];
-            redirect('user/delete_user/' . $this->id);
-        }
-
         $data = array(
             'users' => $this->modelUser->get_all_users(),
             'id' => $this->id,
@@ -24,8 +19,13 @@ class User extends CI_Controller
 
         if (!empty($this->userData['name'])) {
             $this->add_user($this->userData);
-
         }
+
+        if (!empty($this->userData['confirmButton'])) {
+            $this->id = $this->userData['confirmButton'];
+            redirect('user/delete_user/' . $this->id);
+        }
+
         if (!empty($this->userData['edit'])) {
             $this->id = $this->userData['edit'];
             redirect('user/edit_user/' . $this->id);

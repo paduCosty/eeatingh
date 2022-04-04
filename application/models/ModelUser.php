@@ -6,7 +6,6 @@ class ModelUser extends CI_Model
 
     public function crate_user($data)
     {
-        print_r($data);
         if (isset($data['name'])) {
 
             $userData = array(

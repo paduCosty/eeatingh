@@ -34,7 +34,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th name="name"><?php echo $row->name ?></th>
                             <th name="text"><?php echo $row->text ?></th>
                             <th style="background-color: green; text-align: center;" id="delete<?php echo $idRow ?>"
-                                name="button1"
+                                name="button"
                                 onclick='deleteMenu(
                                 <?php echo $idRow ?>,
                                 <?php echo $users->num_rows() ?>,
@@ -44,14 +44,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th>
                                 <button type="submit" value="<?php echo $row->id ?>" name="edit">Edit</button>
                             </th>
-
-
-                            <!--delete user-->
-
                         </tr>
 
                     </table>
-
                 </form>
                 <?php
                 $idRow++;
@@ -64,7 +59,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         ?>
     </div>
 </center>
-<style type="text/css">
+<style>
     .tableBox {
         width: 600px;
     }
@@ -86,4 +81,5 @@ defined('BASEPATH') or exit('No direct script access allowed');
     }
 
 </script>
+
 
