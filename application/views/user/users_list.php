@@ -1,26 +1,7 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
-?>
-<!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"-->
-<!--      integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">-->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-</head>
+<html>
 <body>
-
-<div style="text-align: center;">
-    <form method="post"> <!--Create user-->
-        <input type="text" name="name"/>
-        <input type="text" name="text"/>
-        <input type="submit" name="submit" value="Create User"/>
-    </form>
-</div>
-<br>
-<!--Show all users-->
 <div class="container">
+    <h3>All Users</h3>
     <?php
     if ($users->num_rows() > 0) {
     $idRow = 1;

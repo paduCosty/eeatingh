@@ -4,6 +4,11 @@ class ModelUser extends CI_Model
 {
     public $table = 'dbApp';
 
+    public function __construct()
+    {
+        $this->load->database();
+    }
+
     public function crate_user($data)
     {
         if (isset($data['name'])) {

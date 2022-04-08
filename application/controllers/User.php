@@ -1,25 +1,55 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
 
 class User extends CI_Controller
 {
-    public $id = '';
-    public $userData;
-
-    public function index()
+    public function template($page)
     {
-        $this->load->view('template/navbar');
-        $this->userData = isset($_POST) ? $_POST : '';
-        $this->load->model('modelUser');
+        $data['users'] = $page[0]['param'];
+        $this->load->view('template/header');
+        $this->load->view('user/' . $page[0]['label'], $data['users']);
+        $this->load->view('template/footer');
 
+        return $page;
+    }
+
+    public function add_user()
+    {
+        $userData = isset($_POST) ? $_POST : '';
+        $this->load->model('modelUser');
+        $render_template = array(
+            array(
+                'label' => 'add_user.php',
+                'param' => null
+            )
+        );
+        $this->template($render_template);
+
+        if (empty($userData['name'])) {
+            return false;
+        }
+        $this->modelUser->crate_user($userData);
+
+    }
+
+    public function users_list()
+    {
+        $this->load->model('modelUser');
         $data = array(
             'users' => $this->modelUser->get_all_users(),
-            'id' => $this->id,
         );
-        $this->load->model('modelUser');
 
-        if (!empty($this->userData['name'])) {
-            $this->add_user($this->userData);
+        $render_template = array(
+            array(
+                'label' => 'users_list.php',
+                'param' => $data
+            )
+        );
+
+
+        $this->userData = $_POST;
+        if (!empty($this->userData['edit'])) {
+            $this->id = $this->userData['edit'];
+            redirect('user/edit_user/' . $this->id);
         }
 
         if (!empty($this->userData['confirmButton'])) {
@@ -27,37 +57,20 @@ class User extends CI_Controller
             redirect('user/delete_user/' . $this->id);
         }
 
-        if (!empty($this->userData['edit'])) {
-            $this->id = $this->userData['edit'];
-            redirect('user/edit_user/' . $this->id);
-        }
-
-        $this->load->view('users_view', $data);
-
-    }
-
-    public function add_user($userData)
-    {
-        $this->load->model('modelUser');
-        $this->modelUser->crate_user($userData);
-        redirect('user');
-    }
-
-    public function delete_user($id)
-    {
-        $this->load->model('modelUser');
-        $this->modelUser->delete_user($id);
-        redirect('user/');
-
-        return true;
+        $this->template($render_template);
     }
 
     public function edit_user($id)
     {
-        $this->load->view('template/navbar');
         $this->load->model('modelUser');
         $user = $this->modelUser->get_user_by_id($id);
-        $this->load->view('edit_user', $user);
+        $render_template = array(
+            array(
+                'label' => 'edit_user.php',
+                'param' => $user
+            )
+        );
+
         $this->userData = isset($_POST) ? $_POST : '';
         if (!empty($this->userData['confirmEdit'])) {
             $row = array(
@@ -65,17 +78,27 @@ class User extends CI_Controller
                 'name' => $this->userData['name'],
                 'text' => $this->userData['text']
             );
-            $this->modelUser->update_user($row);
-
             if (!empty($this->userData['name'])) {
-                redirect('user/');
+                $this->modelUser->update_user($row);
             }
+            redirect('user/users_list');
 
             return true;
         }
         if (!empty($this->userData['cancelEdit'])) {
-            redirect('user');
+            redirect('user/users_list');
         }
+
+        $this->template($render_template);
+    }
+
+    public function delete_user($id)
+    {
+        $this->load->model('modelUser');
+        $this->modelUser->delete_user($id);
+        redirect('user/users_list');
+
+        return true;
     }
 
 }
