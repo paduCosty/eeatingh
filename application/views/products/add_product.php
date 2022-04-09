@@ -8,7 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </head>
 <body>
 <div style="text-align: center;">
-    <h1> Plsea add an user</h1>
+    <h1> Add Your Product</h1>
     <form method="post"> <!--Create user-->
         <input type="text" name="name"/>
         <input type="text" name="text"/>

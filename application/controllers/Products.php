@@ -1,24 +1,24 @@
 <?php
 
-class User extends CI_Controller
+class Products extends CI_Controller
 {
     public function template($page)
     {
         $data['users'] = $page[0]['param'];
         $this->load->view('template/header');
-        $this->load->view('user/' . $page[0]['label'], $data['users']);
+        $this->load->view('products/' . $page[0]['label'], $data['users']);
         $this->load->view('template/footer');
 
         return $page;
     }
 
-    public function add_user()
+    public function add_product()
     {
         $userData = isset($_POST) ? $_POST : '';
         $this->load->model('modelUser');
         $render_template = array(
             array(
-                'label' => 'add_user.php',
+                'label' => 'add_product.php',
                 'param' => null
             )
         );
@@ -31,7 +31,7 @@ class User extends CI_Controller
 
     }
 
-    public function users_list()
+    public function product_list()
     {
         $this->load->model('modelUser');
         $data = array(
@@ -40,7 +40,7 @@ class User extends CI_Controller
 
         $render_template = array(
             array(
-                'label' => 'users_list.php',
+                'label' => 'product_list.php',
                 'param' => $data
             )
         );
@@ -49,24 +49,24 @@ class User extends CI_Controller
         $this->userData = $_POST;
         if (!empty($this->userData['edit'])) {
             $this->id = $this->userData['edit'];
-            redirect('user/edit_user/' . $this->id);
+            redirect('products/edit_product/' . $this->id);
         }
 
         if (!empty($this->userData['confirmButton'])) {
             $this->id = $this->userData['confirmButton'];
-            redirect('user/delete_user/' . $this->id);
+            redirect('products/delete_product/' . $this->id);
         }
 
         $this->template($render_template);
     }
 
-    public function edit_user($id)
+    public function edit_product($id)
     {
         $this->load->model('modelUser');
         $user = $this->modelUser->get_user_by_id($id);
         $render_template = array(
             array(
-                'label' => 'edit_user.php',
+                'label' => 'edit_product.php',
                 'param' => $user
             )
         );
@@ -81,22 +81,22 @@ class User extends CI_Controller
             if (!empty($this->userData['name'])) {
                 $this->modelUser->update_user($row);
             }
-            redirect('user/users_list');
+            redirect('products/product_list');
 
             return true;
         }
         if (!empty($this->userData['cancelEdit'])) {
-            redirect('user/users_list');
+            redirect('products/product_list');
         }
 
         $this->template($render_template);
     }
 
-    public function delete_user($id)
+    public function delete_product($id)
     {
         $this->load->model('modelUser');
         $this->modelUser->delete_user($id);
-        redirect('user/users_list');
+        redirect('products/product_list');
 
         return true;
     }
