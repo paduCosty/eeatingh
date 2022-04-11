@@ -28,6 +28,7 @@ class Users extends CI_Controller
     {
         $data = array();
 
+
         if ($this->isUserLoggedIn) {
             $con = array(
                 'id' => $this->session->userdata('userId')
@@ -51,6 +52,7 @@ class Users extends CI_Controller
     public function login()
     {
         $data = array();
+
 
         // Get messages from the session
         if ($this->session->userdata('success_msg')) {
@@ -81,6 +83,7 @@ class Users extends CI_Controller
                     $this->session->set_userdata('isUserLoggedIn', TRUE);
                     $this->session->set_userdata('userId', $checkLogin['id']);
                     redirect('users/account/');
+
                 } else {
                     $data['error_msg'] = 'Wrong email or password, please try again.';
                 }
@@ -172,10 +175,12 @@ class Users extends CI_Controller
 
     public function template($page)
     {
-        $data = $page[0]['param'];
-//        print_r($page[0]['param']);
+        if ($this->isUserLoggedIn && ($page[0]['label'] == 'registration.php' || $page[0]['label'] == 'login.php')) {
+            $page = show_404();
+        }
+        $data['users'] = $page[0]['param'];
         $this->load->view('template/header');
-        $this->load->view('users/' . $page[0]['label'], $data);
+        $this->load->view('users/' . $page[0]['label'], $data['users']);
         $this->load->view('template/footer');
 
         return $page;

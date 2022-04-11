@@ -2,12 +2,23 @@
 
 class Products extends CI_Controller
 {
+    function __construct()
+    {
+        parent::__construct();
+        $this->isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
+    }
+
     public function template($page)
     {
-        $data['users'] = $page[0]['param'];
-        $this->load->view('template/header');
-        $this->load->view('products/' . $page[0]['label'], $data['users']);
-        $this->load->view('template/footer');
+        if ($this->isUserLoggedIn) {
+
+            $data['users'] = $page[0]['param'];
+            $this->load->view('template/header');
+            $this->load->view('products/' . $page[0]['label'], $data['users']);
+            $this->load->view('template/footer');
+         } else {
+            $page = show_404();
+        }
 
         return $page;
     }
@@ -20,7 +31,7 @@ class Products extends CI_Controller
             array(
                 'label' => 'add_product.php',
                 'param' => null
-            )
+            ),
         );
         $this->template($render_template);
 
@@ -28,7 +39,6 @@ class Products extends CI_Controller
             return false;
         }
         $this->modelUser->crate_user($userData);
-
     }
 
     public function product_list()

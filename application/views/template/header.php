@@ -8,27 +8,45 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <form>
-                <div class="navbar-header">
-                    <a class="navbar-brand " href="<?php echo base_url(); ?>">Eeatingh</a>
-                </div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <form>
+            <div class="navbar-header"><a class="navbar-brand " href="<?php echo base_url(); ?>">Eeatingh</a>
+            </div>
+            <?php if ($this->session->userdata('isUserLoggedIn')) { ?>
                 <ul class="nav navbar-nav">
                     <li><a href="<?php echo base_url(); ?>add_product"> Add Product </a></li>
                     <li><a href="<?php echo base_url(); ?>product_list"> Product List </a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="<?php echo base_url(); ?>users/registration"><span class="glyphicon glyphicon-user"></span>
-                            Sign Up</a></li>
-                    <li><a href="<?php echo base_url(); ?>users/login"><span class="glyphicon glyphicon-log-in"></span>
-                            Login</a></li>
-                </ul>
-            </form>
-        </div>
+            <?php } ?>
+            <ul class="nav navbar-nav navbar-right">
 
-    </nav>
-    <div style="margin-bottom: 251px;">
-
+                <?php if (!$this->session->userdata('isUserLoggedIn')) { ?>
+                    <li><a href="<?php echo base_url(); ?>users/registration"><span
+                                    class="glyphicon glyphicon-user"></span> Sign Up</a>
+                    </li>
+                    <li><a href="<?php echo base_url(); ?>users/login">
+                            <span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    </li>
+                <?php } else { ?>
+                    <li>
+                        <a href="<?php echo base_url('users/account'); ?>">
+                            <span class="glyphicon glyphicon-user"></span> Account
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url('users/logout'); ?>">
+                            <span class="glyphicon glyphicon-log-out"></span> Log Out
+                        </a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </form>
     </div>
+
+</nav>
+<div style="margin-bottom: 251px;">
+
+</div>
 </body>
+

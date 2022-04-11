@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </head>
@@ -17,4 +16,3 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </div>
 <!--Show all users-->
 </body>
-</html>
