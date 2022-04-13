@@ -11,3 +11,4 @@
 [Sun Apr 03 12:05:09.080283 2022] [php7:error] [pid 29853] [client 127.0.0.1:41682] PHP Fatal error:  Class 'id' not found in /var/www/html/eeatingh/system/database/drivers/mysqli/mysqli_result.php on line 230
 [Tue Apr 05 16:54:27.289199 2022] [php7:error] [pid 120635] [client 127.0.0.1:43430] PHP Fatal error:  Cannot use [] for reading in /var/www/html/eeatingh/application/controllers/User.php on line 36
 [Tue Apr 05 16:54:50.515700 2022] [php7:error] [pid 124217] [client 127.0.0.1:43434] PHP Fatal error:  Cannot use [] for reading in /var/www/html/eeatingh/application/controllers/User.php on line 36
+[Tue Apr 12 14:39:38.242399 2022] [core:alert] [pid 17854] [client 127.0.0.1:44202] /var/www/html/eeatingh/.htaccess: Invalid command 'Header', perhaps misspelled or defined by a module not included in the server configuration

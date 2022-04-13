@@ -1,3 +1,4 @@
+
 <div style="text-align: center;">
     <div class="container">
         <h2>Create a New Account</h2>
@@ -25,7 +26,7 @@
                     <?php echo form_error('last_name', '<p class="help-block">', '</p>'); ?>
                 </div>
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="EMAIL"
+                    <input type="email" name="email"  id="email" onchange="emailValidation()" placeholder="EMAIL"
                            value="<?php echo !empty($user['email']) ? $user['email'] : ''; ?>" required>
                     <?php echo form_error('email', '<p class="help-block">', '</p>'); ?>
                 </div>

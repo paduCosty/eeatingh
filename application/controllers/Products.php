@@ -5,56 +5,41 @@ class Products extends CI_Controller
     function __construct()
     {
         parent::__construct();
+
         $this->isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
+
+        $this->load->model('modelUser');
     }
 
-    public function template($page)
-    {
-        if ($this->isUserLoggedIn) {
-
-            $data['users'] = $page[0]['param'];
-            $this->load->view('template/header');
-            $this->load->view('products/' . $page[0]['label'], $data['users']);
-            $this->load->view('template/footer');
-         } else {
-            $page = show_404();
-        }
-
-        return $page;
-    }
 
     public function add_product()
     {
-        $userData = isset($_POST) ? $_POST : '';
-        $this->load->model('modelUser');
-        $render_template = array(
-            array(
-                'label' => 'add_product.php',
-                'param' => null
-            ),
-        );
-        $this->template($render_template);
 
-        if (empty($userData['name'])) {
-            return false;
+        if (!$this->isUserLoggedIn) {
+            return show_404();
         }
-        $this->modelUser->crate_user($userData);
+        if ($this->input->post()) {
+            // init user data.
+            $userData = $_POST;
+            // Create User entity.
+            $this->modelUser->crate_user($userData);
+
+        }
+
+        $render_template = array(
+            'header' => 'template/header.php',
+            'body' => 'products/add_product.php',
+            'footer' => 'template/footer.php'
+        );
+
+        $this->template($render_template);
     }
 
     public function product_list()
     {
-        $this->load->model('modelUser');
-        $data = array(
-            'users' => $this->modelUser->get_all_users(),
-        );
-
-        $render_template = array(
-            array(
-                'label' => 'product_list.php',
-                'param' => $data
-            )
-        );
-
+        if (!$this->isUserLoggedIn) {
+            return show_404();
+        }
 
         $this->userData = $_POST;
         if (!empty($this->userData['edit'])) {
@@ -67,21 +52,29 @@ class Products extends CI_Controller
             redirect('products/delete_product/' . $this->id);
         }
 
-        $this->template($render_template);
+        $render_template = array(
+            'header' => 'template/header.php',
+            'body' => 'products/product_list.php',
+            'footer' => 'template/footer.php'
+        );
+
+        $params = array(
+            'data' => $this->modelUser->get_all_users(),
+        );
+
+        $this->template($render_template, $params);
     }
 
     public function edit_product($id)
     {
-        $this->load->model('modelUser');
+        if (!$this->isUserLoggedIn) {
+            return show_404();
+        }
+
         $user = $this->modelUser->get_user_by_id($id);
-        $render_template = array(
-            array(
-                'label' => 'edit_product.php',
-                'param' => $user
-            )
-        );
 
         $this->userData = isset($_POST) ? $_POST : '';
+
         if (!empty($this->userData['confirmEdit'])) {
             $row = array(
                 'id' => $this->userData['confirmEdit'],
@@ -98,17 +91,41 @@ class Products extends CI_Controller
         if (!empty($this->userData['cancelEdit'])) {
             redirect('products/product_list');
         }
+        $render_template = array(
+            'header' => 'template/header.php',
+            'body' => 'products/edit_product.php',
+            'footer' => 'template/footer.php'
+        );
 
-        $this->template($render_template);
+        $this->template($render_template, $user);
     }
 
     public function delete_product($id)
     {
-        $this->load->model('modelUser');
+        if (!$this->isUserLoggedIn) {
+            return show_404();
+        }
+
         $this->modelUser->delete_user($id);
         redirect('products/product_list');
 
         return true;
     }
+
+    public function template($templates, $params = null)
+    {
+        $header = $this->load->view((isset($templates['header']) ? $templates['header'] : ''), $params, TRUE);
+        $body = $this->load->view((isset($templates['body']) ? $templates['body'] : ''), $params, TRUE);
+        $footer = $this->load->view((isset($templates['footer']) ? $templates['footer'] : ''), $params, TRUE);
+
+        $page_data = array(
+            'header' => $header,
+            'body' => $body,
+            'footer' => $footer
+        );
+
+        $this->load->view('pages/main/template.php', $page_data);
+    }
+
 
 }

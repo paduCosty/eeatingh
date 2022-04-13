@@ -15,12 +15,13 @@
         <div class="regisFrm">
             <form action="" method="post">
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="EMAIL" required="">
+                    <input type="email" id="email" onchange="emailValidation()" name="email" placeholder="EMAIL"
+                           required="">
                     <?php echo form_error('email', '<p class="help-block">', '</p>'); ?>
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" placeholder="PASSWORD" required="">
-                    <?php echo form_error('password', '<p class="help-block">', '</p>'); ?>
+                    <?php echo form_error('password', '<p  id="valid" class="help-block">', '</p>'); ?>
                 </div>
                 <div class="send-button">
                     <input type="submit" name="loginSubmit" value="LOGIN">

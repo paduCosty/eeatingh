@@ -3,7 +3,7 @@
 <div class="container">
     <h3>All Users</h3>
     <?php
-    if ($users->num_rows() > 0) {
+    if ($data->num_rows() > 0) {
     $idRow = 1;
     ?>
     <table class="table table-bordered">
@@ -16,7 +16,7 @@
         </thead>
         <tbody>
         <?php
-        foreach ($users->result() as $row) {
+        foreach ($data->result() as $row) {
             ?>
 
             <tr>
@@ -33,7 +33,7 @@
                                name="button"
                                onclick='deleteMenu(
                                <?php echo $idRow ?>,
-                               <?php echo $users->num_rows() ?>,
+                               <?php echo $data->num_rows() ?>,
                                <?php echo $row->id ?>)'>
                         <button class="btn btn-info" id="editBtn<?php echo $idRow ?>" type="submit"
                                 value="<?php echo $row->id ?>" name="edit">

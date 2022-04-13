@@ -12,6 +12,7 @@ class Users extends CI_Controller
         $this->load->model('user');
 
         // User login status
+
         $this->isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
     }
 
@@ -36,12 +37,12 @@ class Users extends CI_Controller
             $data['user'] = $this->user->getRows($con);
 
             $render_template = array(
-                array(
-                    'label' => 'account.php',
-                    'param' => $data
-                )
+                'header' => 'template/header.php',
+                'body' => 'users/account.php',
+                'footer' => 'template/footer.php'
             );
-            $this->template($render_template);
+            $this->template($render_template, $data);
+
 
         } else {
             redirect('users/login');
@@ -93,12 +94,11 @@ class Users extends CI_Controller
         }
 
         $render_template = array(
-            array(
-                'label' => 'login.php',
-                'param' => $data
-            )
+            'header' => 'template/header.php',
+            'body' => 'users/login.php',
+            'footer' => 'template/footer.php'
         );
-        $this->template($render_template);
+        $this->template($render_template, $data);
 
     }
 
@@ -134,16 +134,12 @@ class Users extends CI_Controller
             }
         }
 
-        // Posted data
-        $data['user'] = $userData;
-
         $render_template = array(
-            array(
-                'label' => 'registration.php',
-                'param' => $data
-            )
+            'header' => 'template/header.php',
+            'body' => 'users/registration.php',
+            'footer' => 'template/footer.php'
         );
-        $this->template($render_template);
+        $this->template($render_template, $userData);
     }
 
     public function logout()
@@ -173,17 +169,20 @@ class Users extends CI_Controller
         }
     }
 
-    public function template($page)
+    public function template($templates, $params = null)
     {
-        if ($this->isUserLoggedIn && ($page[0]['label'] == 'registration.php' || $page[0]['label'] == 'login.php')) {
-            $page = show_404();
-        }
-        $data['users'] = $page[0]['param'];
-        $this->load->view('template/header');
-        $this->load->view('users/' . $page[0]['label'], $data['users']);
-        $this->load->view('template/footer');
+        $header = $this->load->view((isset($templates['header']) ? $templates['header'] : ''), $params, TRUE);
+        $body = $this->load->view((isset($templates['body']) ? $templates['body'] : ''), $params, TRUE);
+        $footer = $this->load->view((isset($templates['footer']) ? $templates['footer'] : ''), $params, TRUE);
 
-        return $page;
+        $page_data = array(
+            'header' => $header,
+            'body' => $body,
+            'footer' => $footer
+        );
+
+        $this->load->view('pages/main/template.php', $page_data);
     }
+
 
 }
